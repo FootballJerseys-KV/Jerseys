@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tienda de Camisas</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+header {
+  background: #000;
+  color: #fff;
+  padding: 6px 15px;
+  font-weight: bold;
+  font-size: 15px;
+  justify-content: center;
+  display: flex;
+}
+
+h2 {
+  padding: 12px 15px 5px;
+  margin: 0;
+  justify-content: center;
+  display: flex;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  padding: 5px 15px 10px;
+}
+
+.tabs button {
+  padding: 8px 14px;
+  border: 1px solid #000;
+  background: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.tabs button.active {
+  background: #000;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  padding: 15px;
+}
+
+.team-card {
+  background: #f2f2f2;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.team-card.active {
+  border: 3px solid #000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transform: scale(1.08);
+}
+
+
+.team-card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+
+.team-card:hover {
+  transform: scale(1.05);
+}
+
+.team-card.active {
+  border-color: #000;
+  background: #3c3a3a;
+}
+
+.team-card img {
+  width: 80px;
+}
+.team-card.active {
+  color: #fff;
+}
+
+#productos {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.product {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: all .3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+.product img {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  background: linear-gradient(180deg, #f8f8f8, #eee);
+  padding: 14px;
+  transition: transform .5s ease;
+   transition: opacity .35s ease;
+}
+
+.product:hover img {
+  transform: scale(1.06);
+}
+
+
+.product-info {
+  padding: 16px 18px 20px;
+}
+
+
+.product-info h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.product-info p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+
+.price {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 10px 0 14px;
+}
+.ver-producto {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .25s ease, transform .15s ease;
+}
+
+.ver-producto:hover {
+  background: #111;
+  transform: translateY(-2px);
+}
+.ver-producto {
+  pointer-events: auto;
+}
+
+.product button {
+  pointer-events: auto;
+}
+
+.whatsapp {
+  display: block;
+  text-align: center;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  padding: 9px;
+  border-radius: 6px;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.titulo-equipo {
+  grid-column: 1 / -1; 
+  font-size: 22px;
+  font-weight: 700;
+  margin: 30px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #000;
+}
+#carrito-flotante {
+  position: fixed;
+  top: 70px;
+  right: 22px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform .25s ease;
+  background: none;   
+  border-radius: 0;     
+}
+
+#carrito-flotante img {
+  width: 42px;
+  height: 42px;
+  display: block;
+}
+
+#carrito-flotante:hover {
+  transform: scale(1.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+#carrito-flotante:active {
+  transform: scale(0.96);
+}
+
+
+#carrito-flotante {
+  font-size: 22px;
+}
+
+
+#contador-carrito {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e50914;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,.35);
+}
+
+.product {
+  cursor: pointer;
+}
+
+.product:active {
+  transform: scale(0.98);
+}
+
+#carrito-flotante.bump {
+  animation: bump .3s ease;
+}
+
+@keyframes bump {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+#carrito-flotante img {
+  display: block;
+  background: transparent;
+}
+
+
+#carrito-flotante:hover img {
+  filter: brightness(0.3);
+}
+#carrito-flotante,
+#carrito-flotante:hover,
+#carrito-flotante:active {
+  background: transparent !important;
+  outline: none;
+  box-shadow: none;
+}
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+.teams-grid{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  h2 {
+    font-size: 18px;
+    padding: 10px 12px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .tabs button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .teams-grid {
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .team-card {
+    width: 60px;
+    height: 60px;
+    padding: 8px;
+  }
+
+  .team-card img {
+    width: 50px;
+    height: 50px;
+  }
+
+  #productos {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 15px;
+  }
+
+  .product img {
+    height: 180px;
+    padding: 8px;
+  }
+
+  .product-info {
+    padding: 10px 12px 14px;
+  }
+
+  .product-info h4 {
+    font-size: 14px;
+  }
+
+  .product-info p {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 16px;
+  }
+
+  .ver-producto {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  #carrito-flotante {
+    top: 60px;
+    right: 12px;
+  }
+
+  #carrito-flotante img {
+    width: 36px;
+    height: 36px;
+  }
+
+  #contador-carrito {
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+    top: -4px;
+    right: -4px;
+  }
+
+  .titulo-equipo {
+    font-size: 18px;
+    margin: 20px 0 8px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div id="carrito-flotante" onclick="irCarrito()">
+  <img src="imagenes/carrito.svg" alt="Carrito">
+  <span id="contador-carrito">0</span>
+</div>
+
+
+<header>TIENDA DE CAMISAS</header>
+
+<h2>ENCUENTRA TU EQUIPO</h2>
+
+<div class="tabs">
+  <button data-cat="liga" class="active"
+          onclick="cambiarCategoria('liga', this)">
+    Liga MX
+  </button>
+
+  <button data-cat="europa"
+          onclick="cambiarCategoria('europa', this)">
+    Europa
+  </button>
+
+  <button data-cat="selecciones"
+          onclick="cambiarCategoria('selecciones', this)">
+    Selecciones
+  </button>
+</div>
+
+
+<!-- LOGOS -->
+<div class="teams-grid">
+  <div class="team-card" data-cat="liga" data-color="#F5D76E" onclick="filtrarEquipo('america', this)">
+    <img src="https://statics-maker.llt-services.com/amx/images/2025/04/01/xsmall-wp/0b6faad3-4d71-49dc-827a-9c2aff74d13b-814.webp">
+  </div>
+
+  <div class="team-card" data-cat="liga" data-color="#F7B500" onclick="filtrarEquipo('tigres', this)">
+    <img src="https://cdn.tigresfans.com/wp-content/uploads/2024/07/26135920/logo-tigres-1.webp">
+  </div>
+
+  <div class="team-card" data-cat="liga" data-color="#002D72" onclick="filtrarEquipo('rayados', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/CF_Monterrey_Crest.png">
+  </div>
+
+  <div class="team-card" data-cat="liga" data-color="#005EB8" onclick="filtrarEquipo('caz', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Club_de_Futbol_Cruz_Azul.svg/1024px-Club_de_Futbol_Cruz_Azul.svg.png">
+  </div>
+
+  <div class="team-card" data-cat="liga" data-color="#B11226" onclick="filtrarEquipo('chivas', this)">
+    <img src="https://nachosmx.weebly.com/uploads/1/0/9/0/109002193/chivas-logo-2020_orig.png">
+  </div>
+
+<!--Europa-->
+  <div class="team-card" data-cat="europa" data-color="#FFFFFF" onclick="filtrarEquipo('realmadrid', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#004D98" onclick="filtrarEquipo('barcelona', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#DC052D" onclick="filtrarEquipo('bayern', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/2048px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#FDE100" onclick="filtrarEquipo('dortmund', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Borussia_Dortmund_logo.svg/1024px-Borussia_Dortmund_logo.svg.png">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#DA291C" onclick="filtrarEquipo('manchesteru', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#6CABDD" onclick="filtrarEquipo('mancity', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/250px-Manchester_City_FC_badge.svg.png">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#FFFFFF" onclick="filtrarEquipo('liverpool', this)">
+    <img src="https://1000marcas.net/wp-content/uploads/2020/02/Logo-Liverpool.png">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#EF0107" onclick="filtrarEquipo('arsenal', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/hif/8/82/Arsenal_FC.png">
+  </div>
+
+  <div class="team-card" data-cat="europa" data-color="#004170" onclick="filtrarEquipo('paris', this)">
+    <img src="https://upload.wikimedia.org/wikipedia/sco/thumb/a/a7/Paris_Saint-Germain_F.C..svg/1200px-Paris_Saint-Germain_F.C..svg.png">
+  </div>
+
+<!--Selecciones-->
+  <div class="team-card" data-cat="selecciones" data-color="#006847" onclick="filtrarEquipo('mexico', this)">
+    <img src="https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/Global_Football_Cat_LP_Team_Finder_Mexico_d_27f4976109.png">
+  </div>
+
+  <div class="team-card" data-cat="selecciones" data-color="#6CB4EE" onclick="filtrarEquipo('argentina', this)">
+    <img src="https://i.pinimg.com/originals/b5/e1/d4/b5e1d4ad4df90b85586a351d7bd39159.png">
+  </div>
+
+  <div class="team-card" data-cat="selecciones" data-color="#FF0000" onclick="filtrarEquipo('portugal', this)">
+    <img src="https://logodownload.org/wp-content/uploads/2021/10/fpf-selecao-de-portugal-logo-1.png">
+  </div>
+
+<div class="team-card" data-cat="selecciones" data-color="#F1BF00" onclick="filtrarEquipo('espana', this)">
+    <img src="https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/Global_Football_Cat_LP_Team_Finder_Spain_d_8d9a79122e.png">
+  </div>
+
+  <div class="team-card" data-cat="selecciones" data-color="#FFFFFF" onclick="filtrarEquipo('alemania', this)">
+    <img src="https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/Global_Football_Cat_LP_Team_Finder_Germany_d_f3dbd19030.png">
+  </div>
+
+
+  <div class="team-card" data-cat="selecciones" data-color="#FCD116" onclick="filtrarEquipo('colombia', this)">
+    <img src="https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/Global_Football_Cat_LP_Team_Finder_Colombia_d_0b9a92afcd.png">
+  </div>
+
+  
+</div>
+
+<!-- PRODUCTOS -->
+
+ <!--ligamx-->
+<div id="productos">
+  <div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="america"
+  data-id="america-local-2425"
+  data-nombre="América Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/86759fc0efe24cc399f0928b0a137b15_9366/Jersey_autentico_Local_Club_America_25-26_Amarillo_JN8619_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/86759fc0efe24cc399f0928b0a137b15_9366/Jersey_autentico_Local_Club_America_25-26_Amarillo_JN8619_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/dbf89dc96751454db596f393a1e000f6_9366/Jersey_Local_Club_America_25-26_Amarillo_JN8612_02_laydown.jpg"
+  >
+
+  <div class="product-info">
+    <h4>Club América</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="america"
+  data-id="america-visitante-2425"
+  data-nombre="América Visitante 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/a64247c463ad49fb988c3bba898a28a8_9366/Jersey_Visitante_Club_America_25-26_Azul_JN8618_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/a64247c463ad49fb988c3bba898a28a8_9366/Jersey_Visitante_Club_America_25-26_Azul_JN8618_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/2e55fc685b71415cab9107059eafdd4f_9366/Jersey_Visitante_Club_America_25-26_Azul_JN8618_02_laydown.jpg"
+  >
+
+  <div class="product-info">
+    <h4>Club América</h4>
+    <p>Visitante 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="america"
+  data-id="america-tercera-2425"
+  data-nombre="América Tercera 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/1d6561ab6743405db34005cd0bf72dc9_9366/Tercer_jersey_Club_America_25-26_Gris_JN8614_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/1d6561ab6743405db34005cd0bf72dc9_9366/Tercer_jersey_Club_America_25-26_Gris_JN8614_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/6df5f42ccaf34f7799dee8eed8e2e4b6_9366/Tercer_jersey_Club_America_25-26_Gris_JN8614_02_laydown.jpg"
+  >
+
+  <div class="product-info">
+    <h4>Club América</h4>
+    <p>Tercera Equipación 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)" data-categoria="liga" data-equipo="tigres"
+ data-id="liga-tigres"
+ data-nombre="Club Tigres – Local 2025/26"
+ data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/27f3b214584648c38a311de7bdf6373a_9366/Jersey_Local_Tigres_UANL_25-26_Amarillo_JJ2218_01_laydown.jpg"
+ data-precio="650">
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/27f3b214584648c38a311de7bdf6373a_9366/Jersey_Local_Tigres_UANL_25-26_Amarillo_JJ2218_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/f8d86af40e9443969762af2985529460_9366/Jersey_Local_Tigres_UANL_25-26_Amarillo_JJ2218_02_laydown.jpg"
+  >
+  <div class="product-info">
+    <h4>Club Tigres</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+     <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)" data-categoria="liga" data-equipo="tigres"
+ data-id="liga-tigres"
+ data-nombre="Club Tigres – Visitante 2025/26"
+ data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/5f2e8288b3884018b1b71446d3719105_9366/Playera_visitante_Tigres_UANL_25-26_Azul_JJ2210_01_laydown.jpg"
+ data-precio="650">
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/5f2e8288b3884018b1b71446d3719105_9366/Playera_visitante_Tigres_UANL_25-26_Azul_JJ2210_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/c67ec51be13e4a93b5eb53544208d438_9366/Playera_visitante_Tigres_UANL_25-26_Azul_JJ2210_02_laydown.jpg"
+  >
+  <div class="product-info">
+    <h4>Club Tigres</h4>
+    <p>Visitante 2025/26</p>
+    <div class="price">$600 MXN</div>
+     <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)" data-categoria="liga" data-equipo="tigres"
+ data-id="liga-tigres"
+ data-nombre="Club Tigres – Tercera 2025/26"
+ data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/e92c186eca58482eaf7c2a96b2a82f78_9366/Tercer_jersey_Tigres_UANL_25-26_version_jugador_Gris_JJ2223_01_laydown.jpg"
+ data-precio="650">
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/e92c186eca58482eaf7c2a96b2a82f78_9366/Tercer_jersey_Tigres_UANL_25-26_version_jugador_Gris_JJ2223_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/fa1e14146e314e58b0de927bd9578061_9366/Playera_del_jersey_tercero_Tigres_UANL_25-26_Gris_JJ2221_02_laydown.jpg"
+  >
+  <div class="product-info">
+    <h4>Club Tigres</h4>
+    <p>Tercera Equipación 2025/26</p>
+    <div class="price">$600 MXN</div>
+     <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="rayados"
+  data-id="rayados-local-2425"
+  data-nombre="Rayados Local 2025/26"
+  data-imagen="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/706935/01/fnd/MEX/fmt/png">
+
+  <img src="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/706935/01/fnd/MEX/fmt/png"
+  data-back="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/706935/01/bv/fnd/MEX/fmt/png"
+  >
+
+  <div class="product-info">
+    <h4>Club Rayados</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="rayados"
+  data-id="rayados-visitante-2425"
+  data-nombre="Rayados Visitante 2025/26"
+  data-imagen="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQNf5ya0CmAsB4Tmx7yZm8Y_fO6TerHWgaHmHevldlTqJxsPpanPGKt38aMeYd9KmA4p-z1w7Y08X-khZTxtDDRt_EopgA8xQIn9DSV2Cqdx-14B5eFvgtqCACQs8tmpp-7t2d8IQWRwhU&usqp=CAc">
+
+  <img src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQNf5ya0CmAsB4Tmx7yZm8Y_fO6TerHWgaHmHevldlTqJxsPpanPGKt38aMeYd9KmA4p-z1w7Y08X-khZTxtDDRt_EopgA8xQIn9DSV2Cqdx-14B5eFvgtqCACQs8tmpp-7t2d8IQWRwhU&usqp=CAc"
+  data-back="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/713587/01/bv/fnd/MEX/fmt/png"
+  >
+
+  <div class="product-info">
+    <h4>Club Rayados</h4>
+    <p>Visitante 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="rayados"
+  data-id="rayados-tercera-2425"
+  data-nombre="Rayados Tercera 2025/26"
+  data-imagen="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcS4sZ8knAibFY3K7rP9pPuH2ONdKRsRHXbdjxObfedGTcTmZIxpS2mlxhB-u-FrQw3-JxDe6mWsdq2wRRVotutpjfK6EV1L65NcbFzey0bZab29NJ-jWGJL7AC3PfyNz6KVZwVn5lOiLdo&usqp=CAc">
+
+  <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcS4sZ8knAibFY3K7rP9pPuH2ONdKRsRHXbdjxObfedGTcTmZIxpS2mlxhB-u-FrQw3-JxDe6mWsdq2wRRVotutpjfK6EV1L65NcbFzey0bZab29NJ-jWGJL7AC3PfyNz6KVZwVn5lOiLdo&usqp=CAc"
+  data-back="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/707014/01/bv/fnd/MEX/fmt/png"
+  >
+
+  <div class="product-info">
+    <h4>Club Rayados</h4>
+    <p>Tercera Equipación 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+  <div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="caz"
+  data-id="caz-local-2425"
+  data-nombre="Cruz Azul Local 2025/26"
+  data-imagen="https://ss486.liverpool.com.mx/xl/1181573260.jpg">
+
+   <img src="https://ss486.liverpool.com.mx/xl/1181573260.jpg"
+  data-back="https://ss486.liverpool.com.mx/xl/1181573260_1p.jpg"
+  >
+
+  <div class="product-info">
+    <h4>Cruz Azul</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+  <div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="caz"
+  data-id="caz-visitante-2425"
+  data-nombre="Cruz Azul Visitante 2025/26"
+  data-imagen="https://ss456.liverpool.com.mx/xl/1181574126.jpg">
+
+  <img src="https://ss456.liverpool.com.mx/xl/1181574126.jpg"
+  data-back="https://ss456.liverpool.com.mx/xl/1181574126_1p.jpg"
+  >
+
+  <div class="product-info">
+    <h4>Cruz Azul</h4>
+    <p>Visitante 2025/25</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+  <div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="caz"
+  data-id="caz-tercera-2425"
+  data-nombre="Cruz Azul Tercera 2025/26"
+  data-imagen="https://http2.mlstatic.com/D_NQ_NP_2X_602957-MLM104313166263_012026-F-jersey-cruz-nueva-temporada-negra-2025.webp">
+
+  <img src="https://http2.mlstatic.com/D_NQ_NP_2X_602957-MLM104313166263_012026-F-jersey-cruz-nueva-temporada-negra-2025.webp"
+  data-back="https://http2.mlstatic.com/D_NQ_NP_2X_941763-MLM98423015458_112025-F-jersey-pirma-futbol-cruz-azul-tercero-2526-hombre-18257-neg.webp"
+  >
+
+  <div class="product-info">
+    <h4>Cruz Azul</h4>
+    <p>Tercera Equipación 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+  <div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="chivas"
+  data-id="chivas-local-2425"
+  data-nombre="Guadalajara Local 2025/26"
+  data-imagen="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1550/4880/PLAYERA_RAYADA_REP_P3574_A25__29363.1749697821.jpg?c=1">
+
+  <img src="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1550/4880/PLAYERA_RAYADA_REP_P3574_A25__29363.1749697821.jpg?c=1"
+  data-back="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1550/4883/PLAYERA_RAYADA_REP_P3574_A25_3__07870.1749697821.jpg?c=1"
+  >
+
+  <div class="product-info">
+    <h4>Guadalajara</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="chivas"
+  data-id="chivas-visitante-2425"
+  data-nombre="Guadalajara Visitante 2025/26"
+  data-imagen="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1597/5076/PLAYERA_VISITA_PROMO_P6897_A25__95044.1752076153.jpg?c=1">
+
+  <img src="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1597/5076/PLAYERA_VISITA_PROMO_P6897_A25__95044.1752076153.jpg?c=1"
+  data-back="https://cdn11.bigcommerce.com/s-f13ae7le0r/images/stencil/1280x1280/products/1597/5075/PLAYERA_VISITA_PROMO_P6897_A25_4__18028.1752076153.jpg?c=1"
+  >
+
+  <div class="product-info">
+    <h4>Guadalajara</h4>
+    <p>Visitante 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="liga"
+  data-equipo="chivas"
+  data-id="chivas-tercera-2425"
+  data-nombre="Guadalajara Tercera 2025/26"
+  data-imagen="https://http2.mlstatic.com/D_NQ_NP_2X_860360-MLM81314437003_122024-F-jersey-chivas-puma-alternativo-2025-763835-01.webp">
+
+  <img src="https://http2.mlstatic.com/D_NQ_NP_2X_860360-MLM81314437003_122024-F-jersey-chivas-puma-alternativo-2025-763835-01.webp"
+  data-back="https://http2.mlstatic.com/D_NQ_NP_2X_713828-MLM81314457569_122024-F-jersey-chivas-puma-alternativo-2025-763835-01.webp"
+  >
+
+  <div class="product-info">
+    <h4>Guadalajara</h4>
+    <p>Tercera Equipación 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+
+
+<!--Equipos europeos-->
+
+ <div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="realmadrid"
+  data-id="realmadrid-local-2425"
+  data-nombre="Real Madrid Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bb3e148743aa4423bc25ceb575e14bce_9366/Jersey_local_Real_Madrid_25-26_Blanco_JJ1931_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bb3e148743aa4423bc25ceb575e14bce_9366/Jersey_local_Real_Madrid_25-26_Blanco_JJ1931_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/2850a213f50a4b0081270071c9bf0e26_9366/Jersey_Local_Real_Madrid_25-26_Version_Jugador_Blanco_JV5918_HM31.jpg">
+
+  <div class="product-info">
+    <h4>Real Madrid</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="barcelona"
+  data-id="barcelona-local-2425"
+  data-nombre="Barcelona Local 2025/26"
+  data-imagen="https://dpjye2wk9gi5z.cloudfront.net/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/zoom/3024561-0305V3.jpg">
+
+  <img src="https://dpjye2wk9gi5z.cloudfront.net/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/zoom/3024561-0305V3.jpg"
+  data-back="https://martimx.vtexassets.com/arquivos/ids/1511515-800-800?v=638932929579370000&width=800&height=800&aspect=true">
+
+  <div class="product-info">
+    <h4>Barcelona</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="bayern"
+  data-id="bayern-local-2425"
+  data-nombre="Bayern Múnich Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bbb4a070dea5429aa1756f460ea466d4_9366/Jersey_Local_FC_Bayern_25-26_Rojo_JJ2137_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bbb4a070dea5429aa1756f460ea466d4_9366/Jersey_Local_FC_Bayern_25-26_Rojo_JJ2137_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/e48eea3191b142c19366a6aa660ac01a_9366/Jersey_Local_FC_Bayern_25-26_Rojo_JJ2137_02_laydown.jpg">
+
+  <div class="product-info">
+    <h4>Bayern de Múnich</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="dortmund"
+  data-id="dortmund-local-2425"
+  data-nombre="Borussia Dortmund Local 2025/26"
+  data-imagen="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780088/01/fnd/MEX/fmt/png">
+
+  <img src="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780088/01/fnd/MEX/fmt/png"
+  data-back="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780088/01/bv/fnd/MEX/fmt/png">
+
+  <div class="product-info">
+    <h4>Borussia Dortmund</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+ <div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="manchesteru"
+  data-id="manutd-local-2425"
+  data-nombre="Manchester United Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/341ec36583354390854e7ad4fd2a02dd_9366/jersey_Local_Manchester_United_FC_25-26_Rojo_JI7428_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/341ec36583354390854e7ad4fd2a02dd_9366/jersey_Local_Manchester_United_FC_25-26_Rojo_JI7428_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/9c2483f0d6df44f194ea9d1ae06f611a_9366/jersey_Local_Manchester_United_FC_25-26_Rojo_JI7428_02_laydown.jpg">
+
+  <div class="product-info">
+    <h4>Manchester United</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="mancity"
+  data-id="mancity-local-2425"
+  data-nombre="Manchester City Local 2025/26"
+  data-imagen="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780338/01/fnd/MEX/fmt/png">
+
+  <img src="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780338/01/fnd/MEX/fmt/png"
+  data-back="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/780338/01/bv/fnd/MEX/fmt/png">
+
+  <div class="product-info">
+    <h4>Manchester City</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="liverpool"
+  data-id="liverpool-local-2425"
+  data-nombre="Liverpool Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/f54aaf314c3045d29ab6ad15ff1f4e20_9366/Jersey_Local_Liverpool_FC_25-26_Rojo_JV6423_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/f54aaf314c3045d29ab6ad15ff1f4e20_9366/Jersey_Local_Liverpool_FC_25-26_Rojo_JV6423_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/93bdc396e2344636861e7fc93cf30b78_9366/Jersey_Local_Liverpool_FC_25-26_Rojo_JV6423_02_laydown.jpg">
+
+  <div class="product-info">
+    <h4>Liverpool</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="arsenal"
+  data-id="arsenal-local-2425"
+  data-nombre="Arsenal Local 2025/26"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/7126b710e8e94a6faea7b0ba98ca531f_9366/Jersey_Local_Arsenal_25-26_Version_Jugador_Rojo_JI9516_HM30.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/7126b710e8e94a6faea7b0ba98ca531f_9366/Jersey_Local_Arsenal_25-26_Version_Jugador_Rojo_JI9516_HM30.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d2e971c34d42414599c03e1373e99efe_9366/Jersey_Local_Arsenal_25-26_Version_Jugador_Rojo_JI9516_HM31.jpg">
+
+  <div class="product-info">
+    <h4>Arsenal</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="europa"
+  data-equipo="paris"
+  data-id="psg-local-2425"
+  data-nombre="Paris Saint-Germain Local 2025/26"
+  data-imagen="https://martimx.vtexassets.com/arquivos/ids/1479810/1127980047-1.webp?v=638865642166870000">
+
+  <img src="https://martimx.vtexassets.com/arquivos/ids/1479810/1127980047-1.webp?v=638865642166870000"
+  data-back="https://www.tudnfanshop.com/cdn/shop/files/J87bSBkH_MNY2.png?v=1755699277&width=5000">
+
+  <div class="product-info">
+    <h4>Paris Saint-Germain</h4>
+    <p>Local 2025/26</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<!--Selecciones-->
+
+ <div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="mexico"
+  data-id="mexico-2026"
+  data-nombre="Selección Mexicana 2026"
+  data-imagen="https://assets.adidas.com/images/w_600,f_auto,q_auto/c980767aa9a545bba6bdded466ab2c32_9366/Jersey_Local_Seleccion_Nacional_de_Mexico_26_Version_Jugador_para_Ninos_Verde_KB3686_01_laydown.jpg">
+
+  <img src="https://assets.adidas.com/images/w_600,f_auto,q_auto/c980767aa9a545bba6bdded466ab2c32_9366/Jersey_Local_Seleccion_Nacional_de_Mexico_26_Version_Jugador_para_Ninos_Verde_KB3686_01_laydown.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/6678e029c11649d69b42118aa19ccac2_9366/Jersey_Local_Seleccion_Nacional_de_Mexico_26_Verde_JL8537_02_laydown.jpg">
+
+  <div class="product-info">
+    <h4>Selección Mexicana</h4>
+    <p>Edición 2026</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="argentina"
+  data-id="argentina-2026"
+  data-nombre="Selección Argentina 2026"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/ce40ceeac2b84b1ca151135661dd4bb8_9366/Jersey_Local_Messi_Seleccion_Argentina_26_Version_Jugador_Blanco_KH3934_HM5.jpg"
+  data-precio="650"
+  data-mayoreo="450">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/ce40ceeac2b84b1ca151135661dd4bb8_9366/Jersey_Local_Messi_Seleccion_Argentina_26_Version_Jugador_Blanco_KH3934_HM5.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/eb41b5878548421198180bdcd5f019be_9366/Jersey_Local_Messi_Seleccion_Argentina_26_Version_Jugador_Blanco_KH3934_HM6.jpg">
+
+  <div class="product-info">
+    <h4>Selección Argentina</h4>
+    <p>Edición 2026</p>
+    <div class="price">$650 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="portugal"
+  data-id="portugal-roja-2026"
+  data-nombre="Selección Portuguesa 2026"
+  data-imagen="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/783276/01/fnd/MEX/fmt/png"
+  data-precio="650"
+data-mayoreo="450"
+>
+  
+
+  <img src="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/783276/01/fnd/MEX/fmt/png"
+  data-back="https://http2.mlstatic.com/D_NQ_NP_2X_951126-MLM100714885886_122025-F-jersey-ronaldo-7-local-vjugador-portugal-mundial-2026.webp">
+
+  <div class="product-info">
+    <h4>Selección Portuguesa</h4>
+    <p>Edición 2026</p>
+    <div class="price">$650 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="portugal"
+  data-id="portugal-negra-2026"
+  data-nombre="Selección Portuguesa Negra 2026"
+  data-imagen="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/707141/19/fnd/MEX/fmt/png"
+  data-precio="650"
+data-mayoreo="450"
+>
+
+  <img src="https://images.puma.com/image/upload/f_auto,q_auto,w_600,b_rgb:FAFAFA/global/707141/19/fnd/MEX/fmt/png"
+  data-back="https://http2.mlstatic.com/D_NQ_NP_2X_882183-MLM101317967740_122025-F-jersey-portugal-2026-pantera-negra-ronaldo-playera.webp">
+
+  <div class="product-info">
+    <h4>Selección Portuguesa</h4>
+    <p>Edición Negra 2026</p>
+    <div class="price">$650 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="espana"
+  data-id="espana-2026"
+  data-nombre="Selección Española 2026"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d7ddf314e8bc4868b87389734842c038_9366/Jersey_Local_Espana_26_Version_Jugador_Rojo_JN4366_HM5.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d7ddf314e8bc4868b87389734842c038_9366/Jersey_Local_Espana_26_Version_Jugador_Rojo_JN4366_HM5.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/44f955c77f224e96b21688b53b35f055_9366/Jersey_Local_Espana_26_Version_Jugador_Rojo_JN4366_HM6.jpg">
+
+  <div class="product-info">
+    <h4>Selección Española</h4>
+    <p>Edición 2026</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="alemania"
+  data-id="alemania-2026"
+  data-nombre="Selección Alemana 2026"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/8a585d1a21454417b84b1ff3d0dd173d_9366/Jersey_Local_Alemania_26_Version_Jugador_Blanco_JN2066_HM5.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/8a585d1a21454417b84b1ff3d0dd173d_9366/Jersey_Local_Alemania_26_Version_Jugador_Blanco_JN2066_HM5.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/1ea98b9aa2d348cdb3a1591d76d5ed36_9366/Jersey_Local_Alemania_26_Version_Jugador_Blanco_JN2066_HM6.jpg">
+
+  <div class="product-info">
+    <h4>Selección Alemana</h4>
+    <p>Edición 2026</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+<div class="product" onclick="verProducto(this)"
+  data-categoria="selecciones"
+  data-equipo="colombia"
+  data-id="colombia-2026"
+  data-nombre="Selección Colombiana 2026"
+  data-imagen="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/0154382251444ca7b82ef43b02afc42c_9366/JERSEY_Local_Seleccion_Colombia_26_Version_Jugador_Amarillo_JL6971_HM5.jpg">
+
+  <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/0154382251444ca7b82ef43b02afc42c_9366/JERSEY_Local_Seleccion_Colombia_26_Version_Jugador_Amarillo_JL6971_HM5.jpg"
+  data-back="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/332d5d67d8674e698fb5dcc598ee8385_9366/JERSEY_Local_Seleccion_Colombia_26_Version_Jugador_Amarillo_JL6971_HM6.jpg">
+
+  <div class="product-info">
+    <h4>Selección Colombiana</h4>
+    <p>Edición 2026</p>
+    <div class="price">$600 MXN</div>
+    <button class="ver-producto" onclick="verProducto(this)">Ver producto</button>
+  </div>
+</div>
+
+
+<script>
+const _0x5cdf27=_0x2cbe;(function(_0x1e6c25,_0x124fa9){const _0x2839c7=_0x2cbe,_0x49cec3=_0x1e6c25();while(!![]){try{const _0x12b6c0=parseInt(_0x2839c7(0x133))/0x1*(-parseInt(_0x2839c7(0x166))/0x2)+-parseInt(_0x2839c7(0x145))/0x3*(-parseInt(_0x2839c7(0x14d))/0x4)+-parseInt(_0x2839c7(0x177))/0x5+-parseInt(_0x2839c7(0x165))/0x6+parseInt(_0x2839c7(0x149))/0x7*(parseInt(_0x2839c7(0x176))/0x8)+parseInt(_0x2839c7(0x158))/0x9+-parseInt(_0x2839c7(0x154))/0xa*(-parseInt(_0x2839c7(0x171))/0xb);if(_0x12b6c0===_0x124fa9)break;else _0x49cec3['push'](_0x49cec3['shift']());}catch(_0x4d00bf){_0x49cec3['push'](_0x49cec3['shift']());}}}(_0x1793,0x32efe));let ordenOriginal=[],categoriaActual=_0x5cdf27(0x138),equipoActivo='';function _0x1793(){const _0x27172c=['flex','type','.ver-producto','block','cantidad','titulo-equipo','.product\x20img','Manchester\x20City','Real\x20Madrid','304014IPwWmX','back','textContent','México','21WJfNeL','portugal-roja-2026','onload','src','8eWuoVD','.team-card','cat','opacity','Argentina','querySelectorAll','appendChild','10WauulE','href','#f2f2f2','nombre','516294ZwREXZ','productos','style','imagen','Arsenal','display','getItem','equipo','España','Cruz\x20Azul','dataset','querySelector','parse','900936aNybGQ','760678zQdeVf','keys','closest','removeItem','argentina-2026','.tabs\x20button','Barcelona','includes','Borussia\x20Dortmund','classList','mouseenter','1060268irzxyB','setItem','addEventListener','Tigres\x20UANL','getEntriesByType','1068952HvHDTQ','90770gRTcWv','none','Colombia','producto1.html','Manchester\x20United','background','from','forEach','.tabs\x20button[data-cat=\x22','add','Alemania','bump','carrito.html','.titulo-equipo','Liverpool','className','stringify','remove','color','equipoActivo','Rayados','active','getElementById','mouseleave','portugal-negra-2026','stopPropagation','categoria','PSG','carrito-flotante','1ZDxYmp','location','.product','categoriaActiva','productoActual','liga','reduce','children','navigation'];_0x1793=function(){return _0x27172c;};return _0x1793();}function cambiarCategoria(_0x3f592f,_0xa95190){const _0xe85a1a=_0x5cdf27;categoriaActual=_0x3f592f,equipoActivo='',localStorage[_0xe85a1a(0x172)](_0xe85a1a(0x136),_0x3f592f),localStorage[_0xe85a1a(0x169)](_0xe85a1a(0x18a)),document[_0xe85a1a(0x152)](_0xe85a1a(0x16b))['forEach'](_0x4efeec=>_0x4efeec[_0xe85a1a(0x16f)][_0xe85a1a(0x188)]('active'));if(_0xa95190)_0xa95190[_0xe85a1a(0x16f)][_0xe85a1a(0x180)](_0xe85a1a(0x18c));document[_0xe85a1a(0x152)](_0xe85a1a(0x14e))[_0xe85a1a(0x17e)](_0x129a51=>{const _0x1980b7=_0xe85a1a;_0x129a51['classList'][_0x1980b7(0x188)](_0x1980b7(0x18c)),_0x129a51[_0x1980b7(0x15a)]['background']='#f2f2f2',_0x129a51[_0x1980b7(0x15a)][_0x1980b7(0x15d)]=_0x129a51[_0x1980b7(0x162)][_0x1980b7(0x14f)]===_0x3f592f?_0x1980b7(0x13c):_0x1980b7(0x178);}),organizarProductos();}function filtrarEquipo(_0x39bc60,_0x5a4e06){const _0x3536f9=_0x5cdf27;if(equipoActivo===_0x39bc60){equipoActivo='',localStorage[_0x3536f9(0x169)](_0x3536f9(0x18a)),document[_0x3536f9(0x152)](_0x3536f9(0x14e))[_0x3536f9(0x17e)](_0x4602e0=>{const _0x2043c2=_0x3536f9;_0x4602e0[_0x2043c2(0x16f)][_0x2043c2(0x188)](_0x2043c2(0x18c)),_0x4602e0[_0x2043c2(0x15a)][_0x2043c2(0x17c)]=_0x2043c2(0x156);}),organizarProductos();return;}equipoActivo=_0x39bc60,localStorage[_0x3536f9(0x172)](_0x3536f9(0x18a),_0x39bc60),document[_0x3536f9(0x152)](_0x3536f9(0x14e))[_0x3536f9(0x17e)](_0x20bf83=>{const _0x2d9f09=_0x3536f9;_0x20bf83[_0x2d9f09(0x16f)]['remove']('active'),_0x20bf83['style'][_0x2d9f09(0x17c)]=_0x2d9f09(0x156);}),_0x5a4e06['classList'][_0x3536f9(0x180)]('active'),_0x5a4e06[_0x3536f9(0x15a)][_0x3536f9(0x17c)]=_0x5a4e06[_0x3536f9(0x162)][_0x3536f9(0x189)],organizarProductos();}function organizarProductos(){const _0x1b3483=_0x5cdf27,_0x4708a9=document[_0x1b3483(0x18d)](_0x1b3483(0x159));if(equipoActivo===''){_0x4708a9['innerHTML']='',ordenOriginal['forEach'](_0x51e8da=>_0x4708a9[_0x1b3483(0x153)](_0x51e8da)),_0x4708a9[_0x1b3483(0x152)](_0x1b3483(0x184))['forEach'](_0x96218=>_0x96218[_0x1b3483(0x188)]()),_0x4708a9['querySelectorAll'](_0x1b3483(0x135))['forEach'](_0x10ac9a=>{const _0x1ff270=_0x1b3483;_0x10ac9a['style']['display']=_0x10ac9a['dataset'][_0x1ff270(0x130)]===categoriaActual?_0x1ff270(0x13f):'none';});return;}_0x4708a9[_0x1b3483(0x152)]('.titulo-equipo')['forEach'](_0x45312d=>_0x45312d[_0x1b3483(0x188)]());const _0x5daaaa=Array[_0x1b3483(0x17d)](_0x4708a9[_0x1b3483(0x152)]('.product'));_0x5daaaa[_0x1b3483(0x17e)](_0x1ea86f=>_0x1ea86f[_0x1b3483(0x15a)][_0x1b3483(0x15d)]='none');const _0x2ffc75={};_0x5daaaa[_0x1b3483(0x17e)](_0x4c8aed=>{const _0x598f9f=_0x1b3483;if(_0x4c8aed[_0x598f9f(0x162)][_0x598f9f(0x130)]!==categoriaActual)return;if(equipoActivo&&_0x4c8aed[_0x598f9f(0x162)][_0x598f9f(0x15f)]!==equipoActivo)return;const _0x5f5ce1=_0x4c8aed[_0x598f9f(0x162)][_0x598f9f(0x15f)];if(!_0x2ffc75[_0x5f5ce1])_0x2ffc75[_0x5f5ce1]=[];_0x2ffc75[_0x5f5ce1]['push'](_0x4c8aed);}),Object[_0x1b3483(0x167)](_0x2ffc75)['forEach'](_0x3868af=>{const _0x5b5319=_0x1b3483,_0x266860=document['createElement']('h3');_0x266860[_0x5b5319(0x186)]=_0x5b5319(0x141),_0x266860['textContent']=nombreBonito(_0x3868af),_0x4708a9[_0x5b5319(0x153)](_0x266860),_0x2ffc75[_0x3868af]['forEach'](_0x4ede10=>{const _0x5b50e3=_0x5b5319;_0x4ede10['style'][_0x5b50e3(0x15d)]=_0x5b50e3(0x13f),_0x4708a9['appendChild'](_0x4ede10);});});}function nombreBonito(_0x4a2d01){const _0x594493=_0x5cdf27,_0x52a7ad={'chivas':'Guadalajara','tigres':_0x594493(0x174),'rayados':_0x594493(0x18b),'caz':_0x594493(0x161),'america':'Club\x20América','realmadrid':_0x594493(0x144),'barcelona':_0x594493(0x16c),'bayern':'Bayern\x20Múnich','dortmund':_0x594493(0x16e),'manchesteru':_0x594493(0x17b),'mancity':_0x594493(0x143),'liverpool':_0x594493(0x185),'arsenal':_0x594493(0x15c),'paris':_0x594493(0x131),'mexico':_0x594493(0x148),'argentina':_0x594493(0x151),'portugal':'Portugal','espana':_0x594493(0x160),'alemania':_0x594493(0x181),'colombia':_0x594493(0x179)};return _0x52a7ad[_0x4a2d01]||_0x4a2d01;}window[_0x5cdf27(0x14b)]=()=>{const _0x173bce=_0x5cdf27,_0x1f49c2=document['getElementById'](_0x173bce(0x159));ordenOriginal=Array[_0x173bce(0x17d)](_0x1f49c2[_0x173bce(0x13a)]);const _0x507999=performance[_0x173bce(0x175)](_0x173bce(0x13b))[0x0],_0x56aa9c=_0x507999&&_0x507999[_0x173bce(0x13d)]==='reload';_0x56aa9c&&(localStorage['removeItem'](_0x173bce(0x136)),localStorage[_0x173bce(0x169)](_0x173bce(0x18a)));const _0x4cad71=localStorage[_0x173bce(0x15e)](_0x173bce(0x136))||'liga',_0x1c0684=localStorage[_0x173bce(0x15e)](_0x173bce(0x18a))||'',_0x2db710=document['querySelector'](_0x173bce(0x17f)+_0x4cad71+'\x22]');cambiarCategoria(_0x4cad71,_0x2db710);if(_0x1c0684){const _0x102000=document['querySelector']('.team-card[data-equipo=\x22'+_0x1c0684+'\x22]');if(_0x102000)filtrarEquipo(_0x1c0684,_0x102000);}actualizarCarrito();};function _0x2cbe(_0x28c66d,_0x4f21cb){_0x28c66d=_0x28c66d-0x12e;const _0x1793c6=_0x1793();let _0x2cbe9d=_0x1793c6[_0x28c66d];return _0x2cbe9d;}function verProducto(_0x130a65){const _0x2e8dd7=_0x5cdf27,_0x7a185a=_0x130a65[_0x2e8dd7(0x168)](_0x2e8dd7(0x135)),_0x1b0e9a=_0x7a185a[_0x2e8dd7(0x163)]('img'),_0x2cdcbd={'id':_0x7a185a[_0x2e8dd7(0x162)]['id'],'nombre':_0x7a185a[_0x2e8dd7(0x162)][_0x2e8dd7(0x157)],'imagen':_0x7a185a[_0x2e8dd7(0x162)][_0x2e8dd7(0x15b)],'imagenTrasera':_0x1b0e9a['dataset']['back']||_0x7a185a['dataset']['imagen'],'precio':[_0x2e8dd7(0x16a),_0x2e8dd7(0x14a),_0x2e8dd7(0x12e)][_0x2e8dd7(0x16d)](_0x7a185a[_0x2e8dd7(0x162)]['id'])?0x28a:0x258,'mayoreo':['argentina-2026','portugal-roja-2026',_0x2e8dd7(0x12e)]['includes'](_0x7a185a['dataset']['id'])?0x1c2:0x190};localStorage[_0x2e8dd7(0x172)](_0x2e8dd7(0x137),JSON[_0x2e8dd7(0x187)](_0x2cdcbd)),window[_0x2e8dd7(0x134)][_0x2e8dd7(0x155)]=_0x2e8dd7(0x17a);}function obtenerCarrito(){const _0x2fca9f=_0x5cdf27;return JSON[_0x2fca9f(0x164)](localStorage['getItem']('carrito'))||[];}function actualizarCarrito(){const _0x310e27=_0x5cdf27,_0x19c3b8=obtenerCarrito(),_0x3277a2=_0x19c3b8[_0x310e27(0x139)]((_0x51b1e6,_0x4a0f71)=>_0x51b1e6+_0x4a0f71[_0x310e27(0x140)],0x0),_0x33ac20=document['getElementById']('contador-carrito');if(_0x33ac20)_0x33ac20[_0x310e27(0x147)]=_0x3277a2;}function irCarrito(){const _0x12cb25=_0x5cdf27;window[_0x12cb25(0x134)][_0x12cb25(0x155)]=_0x12cb25(0x183);}document[_0x5cdf27(0x152)](_0x5cdf27(0x13e))[_0x5cdf27(0x17e)](_0x310428=>{const _0x400350=_0x5cdf27;_0x310428[_0x400350(0x173)]('click',_0x16ac27=>_0x16ac27[_0x400350(0x12f)]());});const carritoBtn=document[_0x5cdf27(0x18d)](_0x5cdf27(0x132));carritoBtn[_0x5cdf27(0x16f)]['add'](_0x5cdf27(0x182)),setTimeout(()=>carritoBtn['classList'][_0x5cdf27(0x188)]('bump'),0x12c),document[_0x5cdf27(0x152)](_0x5cdf27(0x142))['forEach'](_0x24541b=>{const _0xa3c3e3=_0x5cdf27,_0x31181b=_0x24541b['src'],_0x56d246=_0x24541b[_0xa3c3e3(0x162)][_0xa3c3e3(0x146)];let _0x29ba63,_0x1879fc=![];_0x24541b['addEventListener'](_0xa3c3e3(0x170),()=>{_0x29ba63=setInterval(()=>{const _0x1f2cfd=_0x2cbe;_0x24541b['style'][_0x1f2cfd(0x150)]=0x0,setTimeout(()=>{const _0x2e1bb1=_0x1f2cfd;_0x24541b[_0x2e1bb1(0x14c)]=_0x1879fc?_0x31181b:_0x56d246,_0x24541b[_0x2e1bb1(0x15a)]['opacity']=0x1,_0x1879fc=!_0x1879fc;},0xb4);},0x4b0);}),_0x24541b['addEventListener'](_0xa3c3e3(0x18e),()=>{const _0x2668c8=_0xa3c3e3;clearInterval(_0x29ba63),_0x24541b[_0x2668c8(0x14c)]=_0x31181b,_0x24541b[_0x2668c8(0x15a)]['opacity']=0x1,_0x1879fc=![];});});
+</script>
+
+
+
+
+
+
+</body>
+</html>
