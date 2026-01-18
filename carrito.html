@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carrito</title>
+<style>
+:root {
+  --oro: #c9a44c;
+  --verde: #25D366;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #ffffff, #e9e9e9);
+  margin: 0;
+  padding: 50px 20px;
+}
+
+.volver {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #111;
+  opacity: .75;
+}
+
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 35px;
+  font-weight: 900;
+}
+
+.carrito {
+  max-width: 1100px;
+  margin: auto;
+  background: rgba(255,255,255,.9);
+  padding: 35px;
+  border-radius: 26px;
+  box-shadow: 0 40px 80px rgba(0,0,0,.15);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 90px 1fr 90px 90px 110px 44px;
+  gap: 16px;
+  align-items: center;
+  padding: 22px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,#fff,#f6f6f6);
+  margin-bottom: 22px;
+}
+
+.item img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.item input {
+  width: 72px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.borrar {
+  background: linear-gradient(135deg,#ff4d4d,#d90000);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.badge {
+  max-width: 1100px;
+  margin: 20px auto;
+  text-align: right;
+  display: none;
+}
+
+.badge span {
+  background: linear-gradient(135deg,var(--oro),#e6c86e);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.total {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 25px;
+  background: #111;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 28px;
+  font-weight: 900;
+  text-align: right;
+}
+
+.whatsapp {
+  max-width: 1100px;
+  width: 100%;
+  padding: 20px;
+  font-size: 20px;
+  background: linear-gradient(135deg,#1ebe5d,var(--verde));
+  color: #fff;
+  border-radius: 22px;
+  border: none;
+  font-weight: 800;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 35px;
+  border-radius: 24px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.confirm {
+  background: #000;
+  color: #fff;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.cerrar-modal {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #eee;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  .carrito {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .item {
+    grid-template-columns: 80px 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .item div {
+    font-size: 16px;
+  }
+
+  .item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .item input {
+    width: 60px;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .borrar {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .total {
+    font-size: 24px;
+    padding: 20px;
+  }
+
+  .whatsapp {
+    font-size: 20px;
+    padding: 18px;
+  }
+
+  .modal-content {
+    padding: 25px;
+    max-width: 95%;
+  }
+
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content select {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .confirm {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .volver {
+    font-size: 16px;
+    top: 15px;
+    left: 15px;
+  }
+}
+
+/* ===== RESPONSIVE MÓVIL PEQUEÑO (FULL SCREEN) ===== */
+@media (max-width: 480px) {
+  .carrito {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .item {
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .item div {
+    font-size: 15px;
+  }
+
+  .item input {
+    width: 60px;
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .borrar {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .total {
+    font-size: 22px;
+    padding: 18px;
+  }
+
+  .whatsapp {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .modal-content {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content select {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .confirm {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e53935;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+  z-index: 9999;
+  display: none;
+  animation: slideDown .25s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+
+@keyframes pop {
+  from { transform: scale(.85); opacity: 0 }
+  to   { transform: scale(1); opacity: 1 }
+}
+
+
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<a href="index.html" class="volver">← Volver a la tienda</a>
+<h1>🛒 Tu carrito</h1>
+
+<div class="carrito" id="carrito"></div>
+
+<div class="badge" id="badgeMayoreo">
+  <span>Mayoreo activo 🔥</span>
+</div>
+
+<div class="total" id="total">Total: $0 MXN</div>
+
+<button class="whatsapp" onclick="abrirModal()">Comprar por WhatsApp</button>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>¿Confirmar pedido?</h2>
+    <button class="confirm" onclick="confirmarCompra()">Continuar</button>
+  </div>
+</div>
+
+<div class="modal" id="modalDireccion">
+  <div class="modal-content">
+    <button class="cerrar-modal" onclick="cerrarDireccion()">✕</button>
+    <h2>📦 Dirección de envío</h2>
+
+    <select id="direccionSelect" onchange="usarDireccion(this.value)">
+      <option value="">Usar dirección guardada</option>
+    </select>
+
+    <input id="nombre" placeholder="Nombre completo">
+    <input id="calle" placeholder="Calle y número">
+    <input id="colonia" placeholder="Colonia">
+    <input id="ciudad" placeholder="Ciudad">
+    <input id="estado" placeholder="Estado">
+    <input id="cp" placeholder="Código Postal">
+    <input id="tel" placeholder="Teléfono">
+    <textarea id="ref" placeholder="Referencias (opcional)"></textarea>
+
+    <button class="confirm" onclick="confirmarDireccion()">Enviar pedido</button>
+  </div>
+</div>
+
+<script>
+
+// ===== CONFIG =====
+const CANT_MAYOREO = 10;
+const WHATSAPP_NUM = '528137041985';
+const KEY_DIRECCIONES = 'direccionesGuardadas';
+
+// ===== DOM =====
+const modal = document.getElementById('modal');
+const modalDireccion = document.getElementById('modalDireccion');
+const badgeMayoreo = document.getElementById('badgeMayoreo');
+const carritoDiv = document.getElementById('carrito');
+const totalDiv = document.getElementById('total');
+
+const direccionSelect = document.getElementById('direccionSelect');
+const nombre = document.getElementById('nombre');
+const calle = document.getElementById('calle');
+const colonia = document.getElementById('colonia');
+const ciudad = document.getElementById('ciudad');
+const estado = document.getElementById('estado');
+const cp = document.getElementById('cp');
+const tel = document.getElementById('tel');
+const ref = document.getElementById('ref');
+
+// ===== TOAST =====
+let toastTimeout;
+function mostrarAlerta(msg) {
+  const toast = document.getElementById('toast');
+  const texto = document.getElementById('toastTexto');
+  texto.textContent = msg;
+  toast.style.display = 'block';
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.style.display = 'none', 3500);
+}
+
+// ===== CARRITO =====
+function obtenerCarrito() {
+  return JSON.parse(localStorage.getItem('carrito')) || [];
+}
+function guardarCarrito(c) {
+  localStorage.setItem('carrito', JSON.stringify(c));
+}
+
+function renderCarrito() {
+  const carrito = obtenerCarrito();
+  carritoDiv.innerHTML = '';
+  let total = 0;
+
+  const mayoreoActivo = carrito.reduce((s,i)=>s+i.cantidad,0) >= CANT_MAYOREO;
+  badgeMayoreo.style.display = mayoreoActivo ? 'block' : 'none';
+
+  carrito.forEach((item,index)=>{
+    const precio = mayoreoActivo ? (item.precioMayoreo || item.precio) : item.precio;
+    total += precio * item.cantidad;
+
+    carritoDiv.innerHTML += `
+      <div class="item">
+        <img src="${item.imagen}">
+        <div><strong>${item.nombre}</strong><br>Talla: ${item.talla}</div>
+        $${precio}
+        <input type="number" min="1" value="${item.cantidad}" onchange="cambiarCantidad(${index},this.value)">
+        $${precio * item.cantidad}
+        <button class="borrar" onclick="eliminar(${index})">✕</button>
+      </div>
+    `;
+  });
+
+  totalDiv.textContent = `Total: $${total} MXN`;
+}
+
+function cambiarCantidad(i,v){
+  const c = obtenerCarrito();
+  c[i].cantidad = parseInt(v);
+  guardarCarrito(c);
+  renderCarrito();
+}
+
+function eliminar(i){
+  const c = obtenerCarrito();
+  c.splice(i,1);
+  guardarCarrito(c);
+  renderCarrito();
+}
+
+// ===== MODALES =====
+function abrirModal(){ modal.style.display='flex'; }
+function cerrarModal(){ modal.style.display='none'; }
+function abrirDireccion(){
+  modalDireccion.style.display='flex';
+  cargarDirecciones();
+}
+function cerrarDireccion(){ modalDireccion.style.display='none'; }
+function confirmarCompra(){
+  cerrarModal();
+  abrirDireccion();
+}
+
+// ===== DIRECCIONES SIN DUPLICAR =====
+function firmaDireccion(d){
+  return (d.nombre+d.calle+d.colonia+d.ciudad+d.estado+d.cp+d.tel)
+    .toLowerCase().replace(/\s+/g,'');
+}
+
+function confirmarDireccion(){
+  const direccion = {
+    nombre: nombre.value.trim(),
+    calle: calle.value.trim(),
+    colonia: colonia.value.trim(),
+    ciudad: ciudad.value.trim(),
+    estado: estado.value.trim(),
+    cp: cp.value.trim(),
+    tel: tel.value.trim(),
+    ref: ref.value.trim()
+  };
+
+  if (!direccion.nombre || !direccion.calle || !direccion.ciudad || !direccion.estado || !direccion.cp || !direccion.tel) {
+    return mostrarAlerta('Completa todos los datos obligatorios 📦');
+  }
+
+  let direcciones = JSON.parse(localStorage.getItem(KEY_DIRECCIONES)) || [];
+  const firma = firmaDireccion(direccion);
+  direcciones = direcciones.filter(d => firmaDireccion(d) !== firma);
+  direcciones.unshift(direccion);
+  localStorage.setItem(KEY_DIRECCIONES, JSON.stringify(direcciones));
+
+  enviarWhatsApp(direccion);
+  localStorage.removeItem('carrito');
+  renderCarrito();
+  cerrarDireccion();
+}
+
+function cargarDirecciones(){
+  direccionSelect.innerHTML = '<option value="">Usar dirección guardada</option>';
+  const direcciones = JSON.parse(localStorage.getItem(KEY_DIRECCIONES)) || [];
+  direcciones.forEach((d,i)=>{
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = `${d.nombre} - ${d.calle}, ${d.ciudad}`;
+    direccionSelect.appendChild(o);
+  });
+}
+
+function usarDireccion(i){
+  if(i==='') return;
+  const d = JSON.parse(localStorage.getItem(KEY_DIRECCIONES))[i];
+  nombre.value=d.nombre;
+  calle.value=d.calle;
+  colonia.value=d.colonia;
+  ciudad.value=d.ciudad;
+  estado.value=d.estado;
+  cp.value=d.cp;
+  tel.value=d.tel;
+  ref.value=d.ref || '';
+}
+
+// ===== WHATSAPP (CON PRECIO + TOTAL) =====
+function enviarWhatsApp(d){
+  const carrito = obtenerCarrito();
+  const mayoreoActivo = carrito.reduce((s,i)=>s+i.cantidad,0) >= CANT_MAYOREO;
+
+  let msg = 'Hola, quiero hacer este pedido:%0A%0A';
+  let total = 0;
+
+  carrito.forEach(i=>{
+    const precio = mayoreoActivo ? (i.precioMayoreo || i.precio) : i.precio;
+    total += precio * i.cantidad;
+    msg += `• ${i.nombre} | Talla ${i.talla} | ${i.cantidad} pzas | $${precio}%0A`;
+  });
+
+  msg += `%0A📦 ENVÍO:%0A${d.nombre}, ${d.calle}, ${d.colonia}, ${d.ciudad}, ${d.estado}, CP ${d.cp}, Tel ${d.tel}`;
+  msg += `%0A%0ATotal: $${total} MXN`;
+
+  window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, '_blank');
+}
+
+// INIT
+renderCarrito();
+
+
+</script>
+<div id="toast" class="toast">
+  <span id="toastTexto"></span>
+</div>
+
+
+</body>
+</html>
