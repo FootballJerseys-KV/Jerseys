@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Carrito de Compras</title>
+<style>
+  :root {
+  /* Colores Modo Claro */
+  --bg-body: radial-gradient(circle at top, #ffffff, #e9e9e9);
+  --bg-card: #ffffff;
+  --texto: #111;
+  --borde: #ccc;
+}
+
+[data-theme="dark"] {
+  /* Colores Modo Oscuro */
+  --bg-body: radial-gradient(circle at top, #1a1a1a, #000000);
+  --bg-card: #2a2a2a;
+  --texto: #f2f2f2;
+  --borde: #444;
+}
+
+/* Aplica las variables a los elementos */
+body {
+  background: var(--bg-body) !important;
+  color: var(--texto) !important;
+  transition: all 0.3s ease;
+}
+
+/* Asegúrate de que tus contenedores usen var(--bg-card) y var(--texto) */
+.product, .team-card, .producto, .carrito, .modal-content {
+  background: var(--bg-card) !important;
+  color: var(--texto) !important;
+}
+/* ===== VARIABLES DE COLOR CONECTADAS AL MODO OSCURO ===== */
+:root {
+  --oro: #c9a44c;
+  --verde: #25D366;
+  --error: #ff4d4d;
+  
+  /* Valores por defecto (Modo Claro) */
+  --bg-body: radial-gradient(circle at top, #ffffff, #e9e9e9);
+  --bg-card: rgba(255,255,255,.9);
+  --bg-item: linear-gradient(135deg,#fff,#f6f6f6);
+  --texto: #111;
+  --borde: #ccc;
+}
+
+/* Solo se activa si el index pone data-theme="dark" */
+[data-theme="dark"] {
+  --bg-body: radial-gradient(circle at top, #1a1a1a, #000000);
+  --bg-card: rgba(30, 30, 30, 0.95);
+  --bg-item: linear-gradient(135deg,#2a2a2a,#1f1f1f);
+  --texto: #f2f2f2;
+  --borde: #444;
+}
+
+* { box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-body);
+  margin: 0;
+  padding: 50px 20px;
+  color: var(--texto);
+}
+
+.volver {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--texto);
+  opacity: .75;
+}
+
+h1 { text-align: center; font-size: 36px; margin-bottom: 35px; font-weight: 900; }
+
+.carrito {
+  max-width: 1100px;
+  margin: auto;
+  background: var(--bg-card);
+  padding: 35px;
+  border-radius: 26px;
+  box-shadow: 0 40px 80px rgba(0,0,0,.15);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 90px 1fr 100px 100px 100px 44px;
+  gap: 16px;
+  align-items: center;
+  padding: 22px;
+  border-radius: 20px;
+  background: var(--bg-item);
+  margin-bottom: 22px;
+}
+
+.item img { width: 100%; border-radius: 14px; }
+
+.item input {
+  width: 72px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--borde);
+  text-align: center;
+  background: var(--bg-body);
+  color: var(--texto);
+}
+
+.borrar {
+  background: linear-gradient(135deg,#ff4d4d,#d90000);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.total {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 25px;
+  background: #111;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 28px;
+  font-weight: 900;
+  text-align: right;
+}
+
+.whatsapp {
+  max-width: 1100px;
+  width: 100%;
+  padding: 20px;
+  font-size: 20px;
+  background: linear-gradient(135deg,#1ebe5d,var(--verde));
+  color: #fff;
+  border-radius: 22px;
+  border: none;
+  font-weight: 800;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto;
+}
+
+/* TOAST PERSONALIZADO */
+#custom-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #333;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  transform: translateY(150%);
+  transition: transform 0.4s ease;
+}
+#custom-toast.show { transform: translateY(0); }
+
+.modal-content {
+  background: var(--bg-card);
+  color: var(--texto);
+  padding: 35px;
+  border-radius: 24px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-content input, .modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--borde);
+  background: var(--bg-body);
+  color: var(--texto);
+}
+/* --- DISEÑO PARA CELULARES (RESPONSIVO) --- */
+/* --- DISEÑO PARA CELULARES (CARRITO OPTIMIZADO) --- */
+@media (max-width: 600px) {
+    body {
+        padding: 15px 8px; /* Reducimos márgenes laterales para ganar espacio */
+    }
+
+    h1 {
+        font-size: 26px; /* Título más visible */
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+
+    .carrito {
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    /* Reacomodamos el item para que todo sea grande y claro */
+    .item {
+        grid-template-columns: 70px 1fr 40px; 
+        grid-template-areas: 
+            "img info borrar"
+            "img cantidad subtotal";
+        gap: 8px;
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+
+    .item img {
+        grid-area: img;
+        width: 70px;
+        height: auto;
+    }
+
+    .item > div:nth-child(2) { /* Talla y Nombre */
+        grid-area: info;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .item input { /* Selector de cantidad */
+        grid-area: cantidad;
+        width: 100% !important; /* Que ocupe su espacio asignado */
+        max-width: 65px;
+        height: 38px;
+        font-size: 16px; /* Evita zoom automático en iPhone */
+    }
+
+    .item > div:nth-child(5) { /* Precio Subtotal */
+        grid-area: subtotal;
+        font-size: 16px;
+        font-weight: 800;
+        text-align: right;
+        align-self: center;
+    }
+
+    .borrar {
+        grid-area: borrar;
+        width: 32px;
+        height: 32px;
+        justify-self: end;
+    }
+
+    .total {
+        font-size: 22px;
+        padding: 20px 15px;
+        text-align: center;
+        border-radius: 15px;
+        margin-top: 15px;
+    }
+
+    .whatsapp {
+        font-size: 18px;
+        padding: 18px;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .volver {
+        top: 15px;
+        left: 15px;
+        font-size: 14px;
+        background: var(--bg-card); /* Le damos un fondo para que no se pierda */
+        padding: 5px 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* Ajuste para el modal de datos de envío */
+    .modal-content {
+        width: 92%;
+        padding: 25px 15px;
+    }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="volver">← Volver a la tienda</a>
+<h1>🛒 Tu carrito</h1>
+
+<div class="carrito" id="carrito"></div>
+<div class="total" id="total">Total: $0 MXN</div>
+<button class="whatsapp" onclick="abrirModal()">Comprar por WhatsApp</button>
+
+<div id="custom-toast">
+  <span id="toast-icon"></span>
+  <span id="toast-message"></span>
+</div>
+
+<div class="modal" id="modalDireccion" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:2000;">
+  <div class="modal-content">
+    <button class="cerrar-modal" onclick="cerrarDireccion()" style="position:absolute; top:15px; right:15px; cursor:pointer; border:none; background:none; font-size:20px; color:var(--texto);">✕</button>
+    <h3>📦 Envío</h3>
+    <select id="direccionSelect" onchange="usarDireccion(this.value)"><option value="">Cargando...</option></select>
+    <input id="nombre" placeholder="Nombre completo">
+    <input id="calle" placeholder="Calle y número">
+    <input id="tel" placeholder="Teléfono">
+    <button onclick="confirmarDireccion()" style="width:100%; padding:15px; background:var(--verde); color:#fff; border:none; border-radius:10px; cursor:pointer; font-weight:bold;">Confirmar y Enviar</button>
+  </div>
+</div>
+
+<script>
+const WHATSAPP_NUM = '528141484571';
+
+// --- ESTO CONECTA CON EL INDEX ---
+(function() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+
+// --- ALERTAS TOAST ---
+function mostrarAviso(msg, tipo = 'success') {
+  const toast = document.getElementById('custom-toast');
+  document.getElementById('toast-message').textContent = msg;
+  document.getElementById('toast-icon').textContent = tipo === 'success' ? '✔' : '✖';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// --- LÓGICA CARRITO ---
+function obtenerCarrito() { return JSON.parse(localStorage.getItem('carrito')) || []; }
+
+function renderCarrito() {
+  const carrito = obtenerCarrito();
+  const div = document.getElementById('carrito');
+  div.innerHTML = '';
+  
+  // 1. Calculamos el total de piezas GLOBAL (sumando todos los modelos)
+  const totalPiezasGlobal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  const esMayoreoGlobal = totalPiezasGlobal >= 10;
+
+  if (carrito.length === 0) {
+    div.innerHTML = '<p style="text-align:center;">Tu carrito está vacío</p>';
+    document.getElementById('total').textContent = `Total: $0 MXN`;
+    return;
+  }
+
+  let totalGlobalDinero = 0;
+
+  carrito.forEach((item, i) => {
+    // 2. Si el total global es 10 o más, aplicamos mayoreo a CADA jersey
+    let precioAplicado = esMayoreoGlobal ? (item.mayoreo || item.precio) : item.precio;
+    
+    const subtotal = precioAplicado * item.cantidad;
+    totalGlobalDinero += subtotal;
+
+    div.innerHTML += `
+      <div class="item">
+        <img src="${item.imagen}">
+        <div>
+          <strong>${item.nombre}</strong><br>
+          <span style="color:var(--oro); font-weight:bold;">Talla: ${item.talla}</span>
+          ${esMayoreoGlobal ? '<br><small style="color:#25d366; font-weight:bold;">¡Precio Mayoreo!</small>' : ''}
+        </div>
+        <div>$${precioAplicado}</div>
+        <input type="number" min="1" value="${item.cantidad}" onchange="actualizarCant(${i}, this.value)">
+        <div style="font-weight:bold;">$${subtotal}</div>
+        <button class="borrar" onclick="eliminar(${i})">✕</button>
+      </div>`;
+  });
+
+  // 3. Mostrar cuánto falta para el mayoreo si aún no llegan
+  if (!esMayoreoGlobal) {
+    div.innerHTML += `
+      <div style="background:#fff3cd; padding:10px; border-radius:8px; text-align:center; margin-top:10px; color:#856404;">
+        ¡Agrega <strong>${10 - totalPiezasGlobal} piezas más</strong> para que todo baje a precio de mayoreo!
+      </div>`;
+  }
+
+  document.getElementById('total').textContent = `Total: $${totalGlobalDinero} MXN`;
+}
+
+function actualizarCant(i, v) {
+  let c = obtenerCarrito();
+  c[i].cantidad = parseInt(v) || 1;
+  localStorage.setItem('carrito', JSON.stringify(c));
+  renderCarrito();
+}
+
+function eliminar(i) {
+  let c = obtenerCarrito();
+  c.splice(i, 1);
+  localStorage.setItem('carrito', JSON.stringify(c));
+  renderCarrito();
+  mostrarAviso("Eliminado del carrito");
+}
+
+// --- DIRECCIONES (ANTI-DUPLICADOS) ---
+function cargarDirecciones() {
+  let dirs = JSON.parse(localStorage.getItem('direcciones')) || [];
+  const s = document.getElementById('direccionSelect');
+  s.innerHTML = '<option value="">Direcciones guardadas</option>';
+  dirs.forEach((d, i) => {
+    s.innerHTML += `<option value="${i}">${d.calle}</option>`;
+  });
+}
+
+function usarDireccion(i) {
+  if (i === "") return;
+  let d = (JSON.parse(localStorage.getItem('direcciones')) || [])[i];
+  if (d) {
+    document.getElementById('nombre').value = d.nombre;
+    document.getElementById('calle').value = d.calle;
+    document.getElementById('tel').value = d.tel;
+  }
+}
+
+function confirmarDireccion() {
+  const campos = {
+    nombre: document.getElementById('nombre').value,
+    calle: document.getElementById('calle').value,
+    tel: document.getElementById('tel').value
+  };
+
+  if(!campos.nombre || !campos.calle || !campos.tel) return mostrarAviso("Llena todos los campos", "error");
+
+  let dirs = JSON.parse(localStorage.getItem('direcciones')) || [];
+  // Evitar duplicados por calle
+  if (!dirs.some(d => d.calle.toLowerCase().trim() === campos.calle.toLowerCase().trim())) {
+    dirs.push(campos);
+    localStorage.setItem('direcciones', JSON.stringify(dirs));
+  }
+
+  enviarPedido(campos);
+}
+
+function enviarPedido(dir) {
+  const carrito = obtenerCarrito();
+  let msg = `*NUEVO PEDIDO*%0A%0A`;
+  carrito.forEach(p => {
+    msg += `• ${p.nombre} | Talla: *${p.talla}* | ${p.cantidad} pzas%0A`;
+  });
+  let total = document.getElementById('total').textContent;
+  msg += `%0A*${total}*%0A%0A*Envío:* ${dir.nombre}%0A${dir.calle}%0ATel: ${dir.tel}`;
+  
+  window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${msg}`);
+  cerrarDireccion();
+}
+
+function abrirModal() { 
+  if(obtenerCarrito().length > 0) {
+    cargarDirecciones();
+    document.getElementById('modalDireccion').style.display='flex'; 
+  } else {
+    mostrarAviso("Carrito vacío", "error");
+  }
+}
+function cerrarDireccion() { document.getElementById('modalDireccion').style.display='none'; }
+
+renderCarrito();
+// Auto-detectar modo oscuro al cargar la página
+(function() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+</script>
+</body>
+</html>
